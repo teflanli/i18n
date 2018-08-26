@@ -1,0 +1,26 @@
+{
+  "name": "express-app2",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "description": "ExpressApp2",
+  "author": {
+    "name": "Turker Eflanli"
+  },
+  "dependencies": {
+    "angular-gettext-tools": "^2.3.13",
+    "body-parser": "^1.15.0",
+    "busboy": "^0.2.14",
+    "cookie-parser": "^1.4.0",
+    "debug": "^2.2.0",
+    "del": "^3.0.0",
+    "express": "^4.14.0",
+    "gulp": "^3.9.1",
+    "gulp-angular-gettext": "^2.2.0",
+    "morgan": "^1.7.0",
+    "pug": "^2.0.0-beta6",
+    "serve-favicon": "^2.3.0"
+  }
+}
