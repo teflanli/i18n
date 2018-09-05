@@ -17,7 +17,9 @@ var uploadFolder;
 
 /* POST for POT generation. */
 router.post("/", function (req, res) {
-    // a random GUID named folder with the base folder
+    console.log(new Date().toString());
+
+    // a random GUID named folder within the base folder
     uploadFolder = path.join(uploadFolderBase, guid());
 
     // setup busboy
