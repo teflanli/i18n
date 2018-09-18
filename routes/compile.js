@@ -12,15 +12,15 @@ const router = express.Router();
 
 const uploadFolderBase = "./temp";
 
-var uploadFolder;
-var outputFilename;
+var compileUploadFolder;
+var compileOutputFilename;
 
 /* POST for JSON generation. */
 router.post("/", function (req, res) {
     console.log(new Date().toString());
 
     // a random GUID named folder within the base folder
-    uploadFolder = path.join(uploadFolderBase, guid());
+    compileUploadFolder = path.join(uploadFolderBase, guid());
 
     // setup busboy
     const busboy = new Busboy({ headers: req.headers });
@@ -29,9 +29,9 @@ router.post("/", function (req, res) {
     busboy.on("file", function (fieldname, file, filename, encoding, mimetype) {
         console.log("Receiving filename: " + filename + ", mimetype: " + mimetype);
 
-        outputFilename = path.parse(filename).name + ".json";
+        compileOutputFilename = path.parse(filename).name + ".json";
 
-        const saveAs = path.join(uploadFolder, path.basename(filename));
+        const saveAs = path.join(compileUploadFolder, path.basename(filename));
         console.log("Saving " + filename + " to: " + saveAs);
 
         // create the folder 
@@ -54,7 +54,7 @@ router.post("/", function (req, res) {
             console.log("Done generating JSON file - Sending client response...");
 
             // send the file
-            const stream = fs.createReadStream(path.join(uploadFolder, outputFilename));
+            const stream = fs.createReadStream(path.join(compileUploadFolder, compileOutputFilename));
             stream.pipe(res);
 
             var error;
@@ -69,8 +69,8 @@ router.post("/", function (req, res) {
 
                     // execute the 'clean' task
                     gulp.start("clean", function () {
-                        console.log("Done removing: " + uploadFolder + "\n");
-                    });
+                        console.log("Done removing: " + compileUploadFolder + "\n");
+                    }); 
                 }
             });
         });
@@ -82,7 +82,7 @@ router.post("/", function (req, res) {
 
 /* compile and generate json file */
 gulp.task('compile', function () {
-    const poFiles = path.join(uploadFolder, "*.po");
+    const poFiles = path.join(compileUploadFolder, "*.po");
 
     console.log("Compiling PO file...");
 
@@ -91,14 +91,14 @@ gulp.task('compile', function () {
             // options to pass to angular-gettext-tools...
             format: 'json'
         }))
-        .pipe(gulp.dest(uploadFolder));
+        .pipe(gulp.dest(compileUploadFolder));
 });
 
 // Remove the folder and the files in it
 gulp.task("clean", function () {
-    console.log("Deleting files and folder: " + uploadFolder);
+    console.log("Deleting files and folder: " + compileUploadFolder);
 
-    return del([path.join(uploadFolder, "**")]);    // no dot between asterisks so folder is removed as well 
+    return del([path.join(compileUploadFolder, "**")]);    // no dot between asterisks so folder is removed as well 
 });
 
 // random GUID
