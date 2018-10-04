@@ -65,8 +65,8 @@ router.post("/", function (req, res) {
                 if (!error) {
                     console.log("Client response sent");
 
-                    // execute the 'clean' task
-                    gulp.start("clean", function () {
+                    // execute the 'cleanPot' task
+                    gulp.start("cleanPot", function () {
                         console.log("Done removing: " + uploadFolder + "\n");
                     });
                 }
@@ -96,7 +96,7 @@ gulp.task("pot", function () {
 });
 
 // Remove the folder and the files in it
-gulp.task("clean", function () {
+gulp.task("cleanPot", function () {
     console.log("Deleting files and folder: " + uploadFolder);
 
     return del([path.join(uploadFolder, "**")]);    // no dot between asterisks so folder is removed as well 

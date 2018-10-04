@@ -67,8 +67,8 @@ router.post("/", function (req, res) {
                 if (!error) {
                     console.log("Client response sent");
 
-                    // execute the 'clean' task
-                    gulp.start("clean", function () {
+                    // execute the 'cleanCompile' task
+                    gulp.start("cleanCompile", function () {
                         console.log("Done removing: " + compileUploadFolder + "\n");
                     }); 
                 }
@@ -84,7 +84,7 @@ router.post("/", function (req, res) {
 gulp.task('compile', function () {
     const poFiles = path.join(compileUploadFolder, "*.po");
 
-    console.log("Compiling PO file...");
+    console.log("Compiling PO file(s)...");
 
     return gulp.src(poFiles)
         .pipe(gettext.compile({
@@ -95,7 +95,7 @@ gulp.task('compile', function () {
 });
 
 // Remove the folder and the files in it
-gulp.task("clean", function () {
+gulp.task("cleanCompile", function () {
     console.log("Deleting files and folder: " + compileUploadFolder);
 
     return del([path.join(compileUploadFolder, "**")]);    // no dot between asterisks so folder is removed as well 
